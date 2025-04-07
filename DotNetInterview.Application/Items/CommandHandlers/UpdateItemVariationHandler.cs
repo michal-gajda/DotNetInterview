@@ -1,6 +1,7 @@
 namespace DotNetInterview.Application.Items.CommandHandlers;
 
 using DotNetInterview.Application.Items.Commands;
+using DotNetInterview.Application.Items.Exceptions;
 using DotNetInterview.Domain.Interfaces;
 
 internal sealed class UpdateItemVariationHandler : IRequestHandler<UpdateItemVariation>
@@ -26,6 +27,10 @@ internal sealed class UpdateItemVariationHandler : IRequestHandler<UpdateItemVar
             }
 
             await this.repository.SaveAsync(item, cancellationToken);
+        }
+        else
+        {
+            throw new ItemNotFoundException(request.Id);
         }
     }
 }
