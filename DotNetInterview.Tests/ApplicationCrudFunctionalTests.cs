@@ -76,7 +76,7 @@ public sealed class ApplicationCrudFunctionalTests
         result.Variations.ShouldBeEmpty();
     }
 
-    //[Test]
+    [Test]
     public async Task CreateItem_Should_Add_Item_With_Variations()
     {
         // Given
@@ -130,7 +130,7 @@ public sealed class ApplicationCrudFunctionalTests
         result.Variations[0].Quantity.ShouldBe(1);
     }
 
-    //[Test]
+    [Test]
     public async Task CreateItem_And_CreateItemVariation_Should_Add_Item_With_Variations()
     {
         // Given
@@ -176,8 +176,8 @@ public sealed class ApplicationCrudFunctionalTests
 
         // Then
         result.ShouldNotBeNull();
-        //result.CurrentPrice.ShouldNotBeNull();
-        //result.CurrentPrice.Value.ShouldBe(10);
+        result.CurrentPrice.ShouldNotBeNull();
+        result.CurrentPrice.Value.ShouldBe(10);
         result.Discount.ShouldBeNull();
         result.Name.ShouldBe("Test");
         result.Price.ShouldBe(10);
