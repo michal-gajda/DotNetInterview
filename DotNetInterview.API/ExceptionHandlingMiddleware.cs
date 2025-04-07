@@ -74,6 +74,20 @@ public sealed class ExceptionHandlingMiddleware : IMiddleware
             };
             await context.Response.WriteAsJsonAsync(response);
         }
+        catch (VariationNotFoundException exception)
+        {
+            this.logger.LogError(exception, "{Message}", exception.Message);
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            var response = new
+            {
+                Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1",
+                Title = exception.Message,
+                Status = context.Response.StatusCode,
+            };
+            await context.Response.WriteAsJsonAsync(response);
+        }
         catch (Exception exception)
         {
             this.logger.LogError(exception, "{Message}", exception.Message);

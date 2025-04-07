@@ -65,6 +65,10 @@ public sealed class ItemEntity
             variation.Size = size;
             variation.Quantity = quantity;
         }
+        else
+        {
+            throw new VariationNotFoundException(id);
+        }
     }
 
     public void DeleteVariation(Guid id)
