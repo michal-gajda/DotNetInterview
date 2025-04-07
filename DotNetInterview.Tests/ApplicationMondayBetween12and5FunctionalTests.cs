@@ -17,7 +17,7 @@ public sealed class ApplicationMondayBetween12and5FunctionalTests
     {
         var inMemoryCollection = new Dictionary<string, string?>()
         {
-            { "ConnectionStrings__DefaultConnection", "Data Source=DotNetInterview;Mode=Memory;Cache=Shared" },
+            { "ConnectionStrings:DefaultConnection", "Data Source=DotNetInterview;Mode=Memory;Cache=Shared" },
         };
 
         var configuration = new ConfigurationBuilder()
