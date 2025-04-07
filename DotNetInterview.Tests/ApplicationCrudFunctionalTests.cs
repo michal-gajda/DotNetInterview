@@ -420,7 +420,7 @@ public sealed class ApplicationCrudFunctionalTests
         // When
         var result = await mediator.Send(query, CancellationToken.None);
 
-        // When
+        // Then
         result.ShouldBeNull();
     }
 
@@ -443,7 +443,7 @@ public sealed class ApplicationCrudFunctionalTests
         // When
         var result = async () => await mediator.Send(updateItemCommand, CancellationToken.None);
 
-        // When
+        // Then
         await result.ShouldThrowAsync<ItemNotFoundException>();
     }
 
@@ -466,7 +466,7 @@ public sealed class ApplicationCrudFunctionalTests
         // When
         var result = async () => await mediator.Send(createItemCommand, CancellationToken.None);
 
-        // When
+        // Then
         await result.ShouldThrowAsync<PriceOutOfRangeException>();
     }
 
@@ -500,7 +500,57 @@ public sealed class ApplicationCrudFunctionalTests
         // When
         var result = async () => await mediator.Send(createItemCommand, CancellationToken.None);
 
-        // When
+        // Then
         await result.ShouldThrowAsync<QuantityOutOfRangeException>();
+    }
+
+    [Test]
+    public async Task UpdateItemVariation_Should_Throw_Variation_Not_Found_Exception_For_Unknown_Variation()
+    {
+        // Given
+        var mediator = this.provider.GetRequiredService<IMediator>();
+
+        var id = Guid.NewGuid();
+        var variationId = Guid.NewGuid();
+
+        var variation = new Variation
+        {
+            Id = variationId,
+            Size = "Test",
+            Quantity = 1,
+        };
+
+        var createItemCommand = new CreateItem
+        {
+            Id = id,
+            Name = "Test",
+            Reference = "Test",
+            Price = 10,
+            Variations = new List<Variation>
+            {
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Size = "Old Test",
+                    Quantity = 10,
+                },
+            }
+        };
+        await mediator.Send(createItemCommand, CancellationToken.None);
+
+        var updateItemVariationCommand = new UpdateItemVariation()
+        {
+            Id = id,
+            Variations = new List<Variation>
+            {
+                variation,
+            },
+        };
+
+        // When
+        var result = async () => await mediator.Send(updateItemVariationCommand, CancellationToken.None);
+
+        // Then
+        await result.ShouldThrowAsync<VariationNotFoundException>();
     }
 }
