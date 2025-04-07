@@ -23,7 +23,7 @@ public sealed class ApplicationCrudFunctionalTests
     {
         var inMemoryCollection = new Dictionary<string, string?>()
         {
-            { "ConnectionStrings:DefaultConnection", "Data Source=DotNetInterview;Mode=Memory;Cache=Shared" },
+            { "ConnectionStrings__DefaultConnection", "Data Source=DotNetInterview;Mode=Memory;Cache=Shared" },
         };
 
         var configuration = new ConfigurationBuilder()
