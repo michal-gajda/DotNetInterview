@@ -18,11 +18,13 @@ internal sealed class ItemRepository : IItemRepository
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var item = await this.context.Items.FindAsync(id, cancellationToken);
+        var entity = await this.context.Items
+            .Include(i => i.Variations)
+            .FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
 
-        if (item is not null)
+        if (entity is not null)
         {
-            this.context.Items.Remove(item);
+            this.context.Items.Remove(entity);
 
             await this.context.SaveChangesAsync(cancellationToken);
         }
