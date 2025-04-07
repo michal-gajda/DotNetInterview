@@ -24,7 +24,7 @@ public sealed class ItemController : ControllerBase
         await mediator.Send(new GetAllItems(), cancellationToken);
 
     [HttpGet("Item/{id:guid}")]
-    public async Task<Item?> GetItem([FromQuery] Guid id, CancellationToken cancellationToken = default)
+    public async Task<Item?> GetItem(Guid id, CancellationToken cancellationToken = default)
     {
         return await mediator.Send(new GetItemWithVariationsById { Id = id, }, cancellationToken);
     }
@@ -34,22 +34,22 @@ public sealed class ItemController : ControllerBase
         => await mediator.Send(command, cancellationToken);
 
     [HttpDelete("Item/{id:guid}")]
-    public async Task Delete([FromQuery] Guid id, CancellationToken cancellationToken = default)
+    public async Task Delete(Guid id, CancellationToken cancellationToken = default)
         => await mediator.Send(new DeleteItem { Id = id, }, cancellationToken);
 
     [HttpPut("Item/{id:guid}")]
-    public async Task Put([FromBody] UpdateItem item, [FromQuery] Guid id, CancellationToken cancellationToken = default)
+    public async Task Put([FromBody] UpdateItem item, Guid id, CancellationToken cancellationToken = default)
         => await mediator.Send(item with { Id = id, }, cancellationToken);
 
     [HttpPost("CreateVariationsForItem/{id:guid}")]
-    public async Task CreateItemVariation([FromBody] CreateItemVariation command, [FromQuery] Guid id, CancellationToken cancellationToken = default)
+    public async Task CreateItemVariation([FromBody] CreateItemVariation command, Guid id, CancellationToken cancellationToken = default)
         => await mediator.Send(command with { Id = id, }, cancellationToken);
 
     [HttpPut("UpdateVariationsForItem/{id:guid}")]
-    public async Task CreateItemVariation([FromBody] UpdateItemVariation command, [FromQuery] Guid id, CancellationToken cancellationToken = default)
+    public async Task CreateItemVariation([FromBody] UpdateItemVariation command, Guid id, CancellationToken cancellationToken = default)
         => await mediator.Send(command with { Id = id, }, cancellationToken);
 
     [HttpDelete("DeleteVariationsForItem/{id:guid}")]
-    public async Task DeleteItemVariation([FromBody] DeleteItemVariation command, [FromQuery] Guid id, CancellationToken cancellationToken = default)
+    public async Task DeleteItemVariation([FromBody] DeleteItemVariation command, Guid id, CancellationToken cancellationToken = default)
         => await mediator.Send(command with { Id = id, }, cancellationToken);
 }
