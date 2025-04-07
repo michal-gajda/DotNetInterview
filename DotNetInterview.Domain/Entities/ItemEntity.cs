@@ -36,6 +36,11 @@ public sealed class ItemEntity
 
     public void SetPrice(decimal price)
     {
+        if (price < 0)
+        {
+            throw new PriceOutOfRangeException(this.Id);
+        }
+
         this.Price = price;
     }
 
@@ -46,12 +51,11 @@ public sealed class ItemEntity
             throw new VariationAlreadyExistsException(id);
         }
 
-        this.variations[id] = new VariationEntity
-        {
-            Id = id,
-            Size = size,
-            Quantity = quantity,
-        };
+        this.variations[id] = new VariationEntity(
+            id,
+            size,
+            quantity
+        );
     }
 
     public void UpdateVariation(Guid id, string size, int quantity)

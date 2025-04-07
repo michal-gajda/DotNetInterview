@@ -5,6 +5,7 @@ using DotNetInterview.Application.Items.Commands;
 using DotNetInterview.Application.Items.Exceptions;
 using DotNetInterview.Application.Items.Queries;
 using DotNetInterview.Application.Items.ViewModels;
+using DotNetInterview.Domain.Exceptions;
 using DotNetInterview.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -444,6 +445,62 @@ public sealed class ApplicationCrudFunctionalTests
 
         // When
         await result.ShouldThrowAsync<ItemNotFoundException>();
+    }
 
+    [Test]
+    public async Task CreateItem_Should_Throw_Price_Out_Of_Range_Exception_For_Negative_Price()
+    {
+        // Given
+        var mediator = this.provider.GetRequiredService<IMediator>();
+
+        var id = Guid.NewGuid();
+
+        var createItemCommand = new CreateItem
+        {
+            Id = id,
+            Name = "Test",
+            Reference = "Test",
+            Price = -1,
+        };
+
+        // When
+        var result = async () => await mediator.Send(createItemCommand, CancellationToken.None);
+
+        // When
+        await result.ShouldThrowAsync<PriceOutOfRangeException>();
+    }
+
+    [Test]
+    public async Task CreateItem_Should_Throw_Quantity_Out_Of_Range_Exception_For_Negative_Quantity()
+    {
+        // Given
+        var mediator = this.provider.GetRequiredService<IMediator>();
+
+        var id = Guid.NewGuid();
+
+        var variation = new Variation
+        {
+            Id = Guid.NewGuid(),
+            Size = "Test",
+            Quantity = -1,
+        };
+
+        var createItemCommand = new CreateItem
+        {
+            Id = id,
+            Name = "Test",
+            Reference = "Test",
+            Price = 10,
+            Variations = new List<Variation>
+            {
+                variation,
+            }
+        };
+
+        // When
+        var result = async () => await mediator.Send(createItemCommand, CancellationToken.None);
+
+        // When
+        await result.ShouldThrowAsync<QuantityOutOfRangeException>();
     }
 }

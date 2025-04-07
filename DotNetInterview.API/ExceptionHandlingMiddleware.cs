@@ -1,5 +1,4 @@
 using DotNetInterview.Application.Items.Exceptions;
-using DotNetInterview.Application.Items.QueryResults;
 using DotNetInterview.Domain.Exceptions;
 
 namespace DotNetInterview.API;
@@ -28,6 +27,34 @@ public sealed class ExceptionHandlingMiddleware : IMiddleware
             var response = new
             {
                 Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4",
+                Title = exception.Message,
+                Status = context.Response.StatusCode,
+            };
+            await context.Response.WriteAsJsonAsync(response);
+        }
+        catch (PriceOutOfRangeException exception)
+        {
+            this.logger.LogError(exception, "{Message}", exception.Message);
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            var response = new
+            {
+                Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1",
+                Title = exception.Message,
+                Status = context.Response.StatusCode,
+            };
+            await context.Response.WriteAsJsonAsync(response);
+        }
+        catch (QuantityOutOfRangeException exception)
+        {
+            this.logger.LogError(exception, "{Message}", exception.Message);
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            var response = new
+            {
+                Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1",
                 Title = exception.Message,
                 Status = context.Response.StatusCode,
             };
