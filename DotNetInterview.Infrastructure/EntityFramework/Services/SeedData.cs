@@ -1,7 +1,7 @@
-using DotNetInterview.API.Domain;
-using Microsoft.EntityFrameworkCore;
+namespace DotNetInterview.Infrastructure.EntityFramework.Services;
 
-namespace DotNetInterview.API;
+using DotNetInterview.Infrastructure.EntityFramework.Models;
+using Microsoft.EntityFrameworkCore;
 
 internal static class SeedData
 {
@@ -9,7 +9,7 @@ internal static class SeedData
     {
         var item1 = new Item
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("585f1d27-9259-4643-960e-848102a783c8"),
             Reference = "A123",
             Name = "Shorts",
             Price = 35,
@@ -38,7 +38,7 @@ internal static class SeedData
 
         var item2 = new Item
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("b902c8c6-defd-4231-87fb-9407763a73cd"),
             Reference = "B456",
             Name = "Tie",
             Price = 15,
@@ -46,7 +46,7 @@ internal static class SeedData
 
         var item3 = new Item
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("9581b5f3-5a2c-4d52-848c-582abcc742d7"),
             Reference = "C789",
             Name = "Shoes",
             Price = 70,

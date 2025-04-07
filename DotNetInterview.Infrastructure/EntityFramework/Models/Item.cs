@@ -1,4 +1,5 @@
-﻿namespace DotNetInterview.API.Domain;
+﻿#nullable disable
+namespace DotNetInterview.Infrastructure.EntityFramework.Models;
 
 public record Item
 {

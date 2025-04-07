@@ -1,0 +1,11 @@
+<Project>
+
+  <PropertyGroup>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>NETSDK1138;</NoWarn>
+  </PropertyGroup>
+
+</Project>
