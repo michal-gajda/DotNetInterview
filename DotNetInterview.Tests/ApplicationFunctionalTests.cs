@@ -16,11 +16,9 @@ public sealed class ApplicationFunctionalTests
 
     public ApplicationFunctionalTests()
     {
-        var fileName = $"C:\\temp\\_SQLite_\\{Guid.NewGuid()}.sqlite";
-
         var inMemoryCollection = new Dictionary<string, string?>()
         {
-            { "ConnectionStrings__DefaultConnection", $"Data Source={fileName};Cache=Shared" },
+            { "ConnectionStrings__DefaultConnection", "Data Source=DotNetInterview;Mode=Memory;Cache=Shared" },
         };
 
         var configuration = new ConfigurationBuilder()
@@ -36,7 +34,7 @@ public sealed class ApplicationFunctionalTests
         this.provider = services.BuildServiceProvider();
     }
 
-    //[Test]
+    [Test]
     public async Task Get_All_Items_Result()
     {
         // Given

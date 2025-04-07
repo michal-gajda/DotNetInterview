@@ -4,7 +4,7 @@ using DotNetInterview.Application.Items.ViewModels;
 
 public sealed record class UpdateItem : IRequest
 {
-    public required Guid Id { get; init; }
+    public required Guid Id { get; set; }
     public required string Name { get; init; }
     public required string Reference { get; init; }
     public required decimal Price { get; init; }

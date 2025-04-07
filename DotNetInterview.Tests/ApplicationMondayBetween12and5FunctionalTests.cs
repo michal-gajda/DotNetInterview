@@ -16,11 +16,9 @@ public sealed class ApplicationMondayBetween12and5FunctionalTests
 
     public ApplicationMondayBetween12and5FunctionalTests()
     {
-        var fileName = $"C:\\temp\\_SQLite_\\{Guid.NewGuid()}.sqlite";
-
         var inMemoryCollection = new Dictionary<string, string?>()
         {
-            { "ConnectionStrings__DefaultConnection", $"Data Source={fileName};Cache=Shared" },
+            { "ConnectionStrings__DefaultConnection", "Data Source=DotNetInterview;Mode=Memory;Cache=Shared" },
         };
 
         var configuration = new ConfigurationBuilder()
@@ -36,7 +34,7 @@ public sealed class ApplicationMondayBetween12and5FunctionalTests
         this.provider = services.BuildServiceProvider();
     }
 
-    //[Test]
+    [Test]
     public async Task Get_All_Items_Result()
     {
         // Given
@@ -82,7 +80,7 @@ public sealed class ApplicationMondayBetween12and5FunctionalTests
         shoes.TotalQuantity.ShouldBe(15);
     }
 
-    //[Test]
+    [Test]
     public async Task Get_Result_For_Tie()
     {
         // Given
@@ -108,7 +106,7 @@ public sealed class ApplicationMondayBetween12and5FunctionalTests
         tie.Variations.ShouldBeEmpty();
     }
 
-    //[Test]
+    [Test]
     public async Task Get_Result_For_Shorts()
     {
         // Given
@@ -141,7 +139,7 @@ public sealed class ApplicationMondayBetween12and5FunctionalTests
         shorts.Variations.SingleOrDefault(variation => "Small".Equals(variation.Size, StringComparison.InvariantCultureIgnoreCase) && variation.Quantity == 7).ShouldNotBeNull();
     }
 
-    //[Test]
+    [Test]
     public async Task Get_Result_For_Shoes()
     {
         // Given

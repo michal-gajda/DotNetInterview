@@ -32,6 +32,7 @@ internal sealed class ItemRepository : IItemRepository
     {
         var entity = await this.context.Items
             .Include(i => i.Variations)
+            .AsNoTracking()
             .FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
 
         if (entity is null)
@@ -51,62 +52,17 @@ internal sealed class ItemRepository : IItemRepository
 
     public async Task SaveAsync(ItemEntity entity, CancellationToken cancellationToken = default)
     {
-        var item = await this.context.Items
-            .Include(i => i.Variations)
-            .FirstOrDefaultAsync(i => i.Id == entity.Id, cancellationToken);
+        await this.DeleteAsync(entity.Id, cancellationToken);
 
-        if (item is null)
+        var item = new Item
         {
-            item = new Item
-            {
-                Id = entity.Id,
-                Reference = entity.Reference,
-                Name = entity.Name,
-                Price = entity.Price,
-            };
+            Id = entity.Id,
+            Reference = entity.Reference,
+            Name = entity.Name,
+            Price = entity.Price,
+        };
 
-            this.context.Items.Add(item);
-        }
-        else
-        {
-            if (item.Reference != entity.Reference)
-            {
-                item.Reference = entity.Reference;
-            }
-            if (item.Name != entity.Name)
-            {
-                item.Name = entity.Name;
-            }
-            if (item.Price != entity.Price)
-            {
-                item.Price = entity.Price;
-            }
-
-            // Ustawienie flag IsModified dla właściwości, które się nie zmieniły:
-            var entry = this.context.Entry(item);
-            if (item.Reference == entity.Reference)
-            {
-                entry.Property(i => i.Reference).IsModified = false;
-            }
-            if (item.Name == entity.Name)
-            {
-                entry.Property(i => i.Name).IsModified = false;
-            }
-            if (item.Price == entity.Price)
-            {
-                entry.Property(i => i.Price).IsModified = false;
-            }
-        }
-
-        if (item.Variations.Any())
-        {
-            var existingVariations = item.Variations.ToList();
-
-            foreach (var existing in existingVariations)
-            {
-                this.context.Entry(existing).State = EntityState.Deleted;
-            }
-        }
+        this.context.Items.Add(item);
 
         foreach (var variation in entity.Variations)
         {

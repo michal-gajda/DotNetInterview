@@ -1,6 +1,5 @@
 namespace DotNetInterview.Tests;
 
-using System.Diagnostics.CodeAnalysis;
 using DotNetInterview.Application;
 using DotNetInterview.Application.Items.Commands;
 using DotNetInterview.Application.Items.Queries;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
 using Shouldly;
+using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
 public sealed class ApplicationCrudFunctionalTests
@@ -20,11 +20,9 @@ public sealed class ApplicationCrudFunctionalTests
 
     public ApplicationCrudFunctionalTests()
     {
-        var fileName = $"C:\\temp\\_SQLite_\\{Guid.NewGuid()}.sqlite";
-
         var inMemoryCollection = new Dictionary<string, string?>()
         {
-            { "ConnectionStrings__DefaultConnection", $"Data Source={fileName};Cache=Shared" },
+            { "ConnectionStrings__DefaultConnection", "Data Source=DotNetInterview;Mode=Memory;Cache=Shared" },
         };
 
         var configuration = new ConfigurationBuilder()

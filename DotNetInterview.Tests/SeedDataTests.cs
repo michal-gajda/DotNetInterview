@@ -11,9 +11,7 @@ public class SeedDataTests
     [SetUp]
     public void Setup()
     {
-        var fileName = $"C:\\temp\\_SQLite_\\{Guid.NewGuid()}.sqlite";
-
-        var connection = new SqliteConnection($"Data Source={fileName};Cache=Shared");
+        var connection = new SqliteConnection("Data Source=DotNetInterview;Mode=Memory;Cache=Shared");
         connection.Open();
         var options = new DbContextOptionsBuilder<DataContext>()
             .UseSqlite(connection)
@@ -21,7 +19,7 @@ public class SeedDataTests
         _dataContext = new DataContext(options);
     }
 
-    //[Test]
+    [Test]
     public void Example_to_ensure_dbcontext_has_seed_data()
     {
         Assert.That(_dataContext.Items.Count(), Is.EqualTo(3));
